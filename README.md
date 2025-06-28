@@ -6,11 +6,12 @@ This implements some basic methods for performing MD simulations within pytorch.
 
 To install a basic set of packages I used the following
 - `mamba create -n spark --override-channels \
-      -c conda-forge -c nvidia -c pytorch \
-      python=3.10 numpy scipy pandas matplotlib seaborn sympy \
-      jupyterlab scikit-learn \
-      pytorch torchvision torchaudio pytorch-cuda=11.8 \
-      h5py netcdf4 xarray -y`
+  -c conda-forge -c nvidia -c pytorch \
+  python=3.10 numpy scipy pandas matplotlib seaborn sympy \
+  jupyterlab scikit-learn \
+  pytorch torchvision torchaudio pytorch-cuda=11.8 \
+  h5py netcdf4 xarray parmed -y
+`
   
 Activate env
 - `conda activate spark`
