@@ -7,7 +7,6 @@ This implements some basic methods for performing MD simulations within pytorch.
 To install a basic set of packages I used the following
 - `mamba create --override-channels -n spark -c conda-forge python=3.10 pip numpy scipy pandas matplotlib seaborn sympy jupyterlab scikit-learn tqdm h5py netcdf4 xarray parmed freud -y`
 - `mkdir -p /scratch.global/$USER/pip_cache /scratch.global/$USER/pip_tmp && PIP_CACHE_DIR=/scratch.global/$USER/pip_cache TMPDIR=/scratch.global/$USER/pip_tmp conda run -n spark pip3 install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128`
-- `pip install freud-analysis`
   
 Activate env
 - `conda activate spark`
