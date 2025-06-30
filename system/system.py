@@ -117,6 +117,12 @@ class System:
         if not hasattr(self, '_cached_ke'):
             self._cached_ke = torch.sum(0.5 * self.mom.pow(2) / self.mass.unsqueeze(-1), dim=(1, 2)) # don't sum over batch
         return self._cached_ke
+
+    def total_energy(self):
+        """Return kinetic energy summed over all particles (not over batch)."""
+        if not hasattr(self, '_cached_total_e'):
+            self._cached_total_e = self.kinetic_energy() + self.potential_energy()
+        return self._cached_total_e
     
     def temperature(self):
         """Return instantaneous temperature via equipartition theorem."""
@@ -130,7 +136,7 @@ class System:
         """Clear all cached tensors."""
         for attr in (
             '_cached_pe', '_cached_force', '_cached_velocity',
-            '_cached_ke', '_cached_temp'
+            '_cached_ke', '_cached_temp', '_cached_total_e'
         ):
             if hasattr(self, attr):
                 delattr(self, attr)

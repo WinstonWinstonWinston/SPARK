@@ -157,7 +157,7 @@ class MixtureEwaldCoulomb:
         self.E_charge = - self.alpha * math.pi * self.sigma ** 2 * self.q_sum ** 2 / box.volume
         self.E_lr_self = self.alpha * (-0.5) * math.sqrt(2/math.pi)  * self.q2_sum / self.sigma # (scalar)
     
-    def energy(self, pos: torch.Tensor, top: Topology, box: Box, node_features: dict[str, torch.Tensor], eps:float = 1e-12, chunk:int = 8192) -> torch.Tensor:
+    def energy(self, pos: torch.Tensor, top: Topology, box: Box, node_features: dict[str, torch.Tensor], eps:float = 1e-12, chunk:int = 65536) -> torch.Tensor:
         idx = top.get_tensor(2, self.label)
         vecs = pos[:, idx]                                           # (B, M, 2, 3)
         rij_0 = box.minimum_image(vecs[:, :, 0] - vecs[:, :, 1])    # (B, M, 3)
