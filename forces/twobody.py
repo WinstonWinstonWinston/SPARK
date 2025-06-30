@@ -136,9 +136,9 @@ class MixtureEwaldCoulomb:
         # reciprocal-space
         L_star = 2 * torch.pi / L                         # (3,)
         n_repeats = torch.ceil(self.kcut / L_star).to(torch.int64)   # (3,)
-        nx = torch.arange(-n_repeats[0], n_repeats[0] + 1, device=self.device)
-        ny = torch.arange(-n_repeats[1], n_repeats[1] + 1, device=self.device)
-        nz = torch.arange(-n_repeats[2], n_repeats[2] + 1, device=self.device)
+        nx = torch.arange(0, n_repeats[0] + 1, device=self.device)
+        ny = torch.arange(0, n_repeats[1] + 1, device=self.device)
+        nz = torch.arange(0, n_repeats[2] + 1, device=self.device)
         kshift = torch.cartesian_prod(nx * L_star[0],  ny * L_star[1], nz * L_star[2])    # (P,3)
         keep = (kshift.square().sum(-1) <= self.kcut**2) & (kshift.abs().sum(-1) > 0)
         self.kshift = kshift[keep]  # (P_k, 3)
@@ -169,7 +169,7 @@ class MixtureEwaldCoulomb:
         mask = r2 < self.rcut ** 2
         r    = torch.sqrt(torch.clamp(r2, min=eps))  # (B,M,P)
 
-        # ##### LONG RANGE #####
+        # ##### LONG RANGE  (wrong, double counts cos) #####
         # # (P_k, 3), (B, M, 3) -> B, M, P_k 
         # kdotr = torch.einsum("kp,bmp->bmk",
         #              self.kshift,   # (P_k,3)
@@ -178,7 +178,7 @@ class MixtureEwaldCoulomb:
 
         # E_batch_LR = self.alpha*(charge2.unsqueeze(dim=-1)*vlr).sum(dim=(-1))/box.volume               # (B,M, )
 
-        ##### LONG RANGE CHUNKED ALONG P_k #####
+        ##### LONG RANGE CHUNKED ALONG P_k  (wrong, double counts cos) #####
         E_batch_LR = torch.zeros_like(charge2, dtype=rij_0.dtype)   # (B, M)
         
         # for start in range(0, self.kshift.shape[0], chunk):
