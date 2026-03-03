@@ -1,0 +1,82 @@
+
+╔═══════════════════════════════════════════════════╗
+║                                                   ║
+║  ██████╗   ██████╗    ██╗      ██████╗   ██╗  ██╗ ║
+║ ██╔════╝  ██╔══██╗   ██╔██╗    ██╔══██╗  ██║ ██╔╝ ║
+║ ╚█████╗   ██████╔╝  ██╔╝╚██╗   ██████╔╝  █████╔╝  ║
+║  ╚═══██╗  ██╔═══╝  ██╔╝  ╚██╗  ██╔══██╗  ██╔═██╗  ║
+║ ██████╔╝  ██║     ██╔╝    ╚██╗ ██║  ██║  ██║ ╚██╗ ║
+║ ╚═════╝   ╚═╝     ╚═╝      ╚═╝ ╚═╝  ╚═╝  ╚═╝  ╚═╝ ║
+║                                                   ║
+║     Statistical Physics Autodiff Research Kit     ║
+╚═══════════════════════════════════════════════════╝
+
+          V(r)           ψ, φ              q
+           │               │               │
+           ○               ○               ○
+         ╱ | ╲           ╱ | ╲           ╱ | ╲
+        ○  ○  ○         ○  ○  ○         ○  ○  ○
+         ╲ | ╱           ╲ | ╱           ╲ | ╱
+           ○               ○               ○
+           │               │               │
+          g(r)             F              E(q)
+
+I ran the same simulation twice. That’s means its reproducible? Right?
+
+
+============================================================
+  alpha = 150
+============================================================
+System(Batches: 256, Atoms: 1372, Interactions: 1, Box: Box(10.7922p, 10.7922p, 10.7922p), Units: UnitSystem(L=1 m/uL, E=1 J/uE, M=1 kg/um, kB=1 uE/K, Q=1 e/uQ))
+NVT(dt=0.005, gamma=10, T=1, remove_com_mom=True, remove_com_pos=False)
+λ range: [0.000, 1.000]  B=256
+
+
+--- Free Energy Estimate (alpha=150) ---
+N atoms          = 1372
+F_EC (analytical)= 6535.6133
+∫<U_LJ-U_EC>dλ   = -10074.2832   [λ: 0 → 1]
+F_LJ estimate    = -3538.6699
+F_LJ/N estimate  = -2.579205
+van der Hoef EOS a_ex/N  = -1.659767
+ideal-gas a_id/N         = -0.912441
+van der Hoef EOS a/N     = -2.572208  at rho*=1.091507, T*=1.000
+
+============================================================
+  alpha = 200
+============================================================
+System(Batches: 256, Atoms: 1372, Interactions: 1, Box: Box(10.7922p, 10.7922p, 10.7922p), Units: UnitSystem(L=1 m/uL, E=1 J/uE, M=1 kg/um, kB=1 uE/K, Q=1 e/uQ))
+NVT(dt=0.005, gamma=10, T=1, remove_com_mom=True, remove_com_pos=False)
+λ range: [0.000, 1.000]  B=256
+
+
+--- Free Energy Estimate (alpha=200) ---
+N atoms          = 1372
+F_EC (analytical)= 7127.2315
+∫<U_LJ-U_EC>dλ   = -10652.7031   [λ: 0 → 1]
+F_LJ estimate    = -3525.4716
+F_LJ/N estimate  = -2.569586
+van der Hoef EOS a_ex/N  = -1.659767
+ideal-gas a_id/N         = -0.912441
+van der Hoef EOS a/N     = -2.572208  at rho*=1.091507, T*=1.000
+
+============================================================
+  alpha = 250
+============================================================
+System(Batches: 256, Atoms: 1372, Interactions: 1, Box: Box(10.7922p, 10.7922p, 10.7922p), Units: UnitSystem(L=1 m/uL, E=1 J/uE, M=1 kg/um, kB=1 uE/K, Q=1 e/uQ))
+NVT(dt=0.005, gamma=10, T=1, remove_com_mom=True, remove_com_pos=False)
+λ range: [0.000, 1.000]  B=256
+
+
+--- Free Energy Estimate (alpha=250) ---
+N atoms          = 1372
+F_EC (analytical)= 7586.1262
+∫<U_LJ-U_EC>dλ   = -11101.6211   [λ: 0 → 1]
+F_LJ estimate    = -3515.4949
+F_LJ/N estimate  = -2.562314
+van der Hoef EOS a_ex/N  = -1.659767
+ideal-gas a_id/N         = -0.912441
+van der Hoef EOS a/N     = -2.572208  at rho*=1.091507, T*=1.000
+Saved results → /users/1/sull1276/SPARK/examples/LJSolidFreeEnergy/ti_results.npz
+
+Saved /users/1/sull1276/SPARK/examples/LJSolidFreeEnergy/msd_vs_lambda.png

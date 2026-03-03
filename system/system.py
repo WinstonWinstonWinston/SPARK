@@ -39,11 +39,11 @@ class System:
         elif mass.shape[0] != B or mass.shape[1] !=  N:
             raise ValueError("mass must be (B, N) or (N)")
             
-        self.labels = [label for arity in top.edges for label in top.edges[arity]]
-        num_labels = len(self.labels)
-    
-        if len(energy_dict) != num_labels:
-            raise ValueError(f"energy_dict has {len(energy_dict)} entries, but {num_labels} labels were found in topology. Every edge type in the hypergraph must have an energy function.")
+        self.labels = list(energy_dict.keys())
+        top_labels = {label for arity in top.edges for label in top.edges[arity]}
+        for label in self.labels:
+            if label not in top_labels:
+                raise ValueError(f"energy_dict label '{label}' not found in topology.")
         
         # --- node features handling ---------------------------------------
         if node_features is not None:
@@ -80,14 +80,22 @@ class System:
         """PRIVATE: batched potential energy at arbitrary `pos` (shape: B,)."""
         return torch.sum(torch.stack([(self.energy_dict[label].energy(pos, self.top, self.box, self.node_features)).sum(dim=1) for label in self.labels]),dim=0)
 
-    def potential_energy_split(self) -> torch.Tensor:
-        """Potential energy of the current coordinates split by type in dict."""
-        return {label:(self.energy_dict[label].energy(self.pos, self.top, self.box, self.node_features)).sum(dim=1) for label in self.labels}
-    
+    def potential_energy_split(self) -> dict:
+        """Potential energy split by label: {label: (B, M)} raw unsummed tensor. Cached."""
+        if not hasattr(self, '_cached_pe_split'):
+            self._cached_pe_split = {
+                label: self.energy_dict[label].energy(self.pos, self.top, self.box, self.node_features)
+                for label in self.labels
+            }
+        return self._cached_pe_split
+
     def potential_energy(self) -> torch.Tensor:
-        """Public: potential energy of the current coordinates."""
+        """Public: potential energy of the current coordinates. Cached."""
         if not hasattr(self, '_cached_pe'):
-            self._cached_pe = self._potential_energy(self.pos)
+            self._cached_pe = torch.sum(
+                torch.stack([v.sum(dim=1) for v in self.potential_energy_split().values()]),
+                dim=0,
+            )
         return self._cached_pe
     
     def compile_force_fn(self):
@@ -135,7 +143,7 @@ class System:
     def reset_cache(self):
         """Clear all cached tensors."""
         for attr in (
-            '_cached_pe', '_cached_force', '_cached_velocity',
+            '_cached_pe', '_cached_pe_split', '_cached_force', '_cached_velocity',
             '_cached_ke', '_cached_temp', '_cached_total_e'
         ):
             if hasattr(self, attr):
@@ -185,7 +193,7 @@ spark_quotes = [
     "The Hamiltonian doesn’t need to be real. Just convincing.",
     "Boltzmann didn’t die for this.",
     "My gas certainly isn't ideal...",
-    "Why do I need to put bounds on my integrals?"
+    "Why do I need to put bounds on my integrals?",
     "We're in the asymptotic regime ... emotionally, at least.",
     "We're operating in imaginary time, just like grad school!",
     "The results are interesting, but could the authors rerun everything in a different ensemble? - reviewer 2",

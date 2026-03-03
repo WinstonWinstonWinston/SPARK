@@ -262,6 +262,46 @@ def make_sc_lattice(a: float,
     pos = cell.unsqueeze(0).expand(batch, -1, -1).contiguous()
     return pos
 
+def make_fcc_lattice(a: float,
+                     nx: int, ny: int, nz: int,
+                     *,
+                     batch: int = 1,
+                     device: str | torch.device = "cuda",
+                     dtype: torch.dtype = torch.float32) -> torch.Tensor:
+    """
+    Face-centred-cubic lattice duplicated along a batch dimension.
+
+    The four-atom basis (in fractional coords) is:
+        (0,0,0), (0.5,0.5,0), (0.5,0,0.5), (0,0.5,0.5)
+
+    Returns
+    -------
+    pos : (B, N, 3) tensor, N = 4 * nx * ny * nz
+    """
+    # basis vectors for the 4-atom motif
+    basis = torch.tensor([[0.0, 0.0, 0.0],
+                          [0.5, 0.5, 0.0],
+                          [0.5, 0.0, 0.5],
+                          [0.0, 0.5, 0.5]],
+                         device=device, dtype=dtype)          # (4, 3)
+
+    # integer grid of unit-cell origins ➜ (nx, ny, nz, 3)
+    grid = torch.stack(
+        torch.meshgrid(
+            torch.arange(nx, device=device, dtype=dtype),
+            torch.arange(ny, device=device, dtype=dtype),
+            torch.arange(nz, device=device, dtype=dtype),
+            indexing="ij"),
+        dim=-1)
+
+    # (nx*ny*nz, 1, 3) + (1, 4, 3) -> (nx*ny*nz, 4, 3)
+    origins = grid.reshape(-1, 1, 3)
+    cell = ((origins + basis.unsqueeze(0)) * a).reshape(-1, 3)   # (N, 3)
+
+    # duplicate along batch ->(B, N, 3)
+    pos = cell.unsqueeze(0).expand(batch, -1, -1).contiguous()
+    return pos
+
 def random_rotation_3d(x: torch.Tensor, R: torch.Tensor = None):
     """
     Apply a 3D rotation to the last dimension of a tensor of shape [B, N, 3].
