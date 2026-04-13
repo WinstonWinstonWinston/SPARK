@@ -1,0 +1,51 @@
+
+╔═══════════════════════════════════════════════════╗
+║                                                   ║
+║  ██████╗   ██████╗    ██╗      ██████╗   ██╗  ██╗ ║
+║ ██╔════╝  ██╔══██╗   ██╔██╗    ██╔══██╗  ██║ ██╔╝ ║
+║ ╚█████╗   ██████╔╝  ██╔╝╚██╗   ██████╔╝  █████╔╝  ║
+║  ╚═══██╗  ██╔═══╝  ██╔╝  ╚██╗  ██╔══██╗  ██╔═██╗  ║
+║ ██████╔╝  ██║     ██╔╝    ╚██╗ ██║  ██║  ██║ ╚██╗ ║
+║ ╚═════╝   ╚═╝     ╚═╝      ╚═╝ ╚═╝  ╚═╝  ╚═╝  ╚═╝ ║
+║                                                   ║
+║     Statistical Physics Autodiff Research Kit     ║
+╚═══════════════════════════════════════════════════╝
+
+          V(r)           ψ, φ              q
+           │               │               │
+           ○               ○               ○
+         ╱ | ╲           ╱ | ╲           ╱ | ╲
+        ○  ○  ○         ○  ○  ○         ○  ○  ○
+         ╲ | ╱           ╲ | ╱           ╲ | ╱
+           ○               ○               ○
+           │               │               │
+          g(r)             F              E(q)
+
+I promise it's O(n), the constant CAN'T matter
+
+
+============================================================
+  alpha=200.0  schedule=linear  steps_switch=3000  steps_eq=2000
+============================================================
+
+--- Crooks Estimate (alpha=200.0) ---
+N atoms                = 1372
+n_passes               = 10
+trajectories / dir     = 2560
+steps_switch           = 3000
+schedule               = linear
+F_EC (COM-constrained) = 7127.231514
+ΔF target (EOS, CM)    = -10649.163916
+ΔF Crooks crossing     = -10655.511513
+ΔF Jarzynski forward   = -10652.206251
+ΔF Jarzynski reverse   = -10659.879307
+F_LJ abs estimate      = -3535.416464
+F_LJ/N estimate        = -2.576834
+EOS a_ex/N             = -1.659767
+EOS a_id/N             = -0.912441
+EOS a/N                = -2.572208
+error in a/N           = -0.004627
+
+Saved results -> /users/1/sull1276/SPARK/examples/LJSolidFreeEnergy/CrooksAgain/crooks_results_alpha200_linear_sw3000_eq2000.npz
+
+Saved /users/1/sull1276/SPARK/examples/LJSolidFreeEnergy/CrooksAgain/crooks_work_distributions_alpha200_linear_sw3000_eq2000.png

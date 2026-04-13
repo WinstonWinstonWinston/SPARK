@@ -1,0 +1,51 @@
+
+╔═══════════════════════════════════════════════════╗
+║                                                   ║
+║  ██████╗   ██████╗    ██╗      ██████╗   ██╗  ██╗ ║
+║ ██╔════╝  ██╔══██╗   ██╔██╗    ██╔══██╗  ██║ ██╔╝ ║
+║ ╚█████╗   ██████╔╝  ██╔╝╚██╗   ██████╔╝  █████╔╝  ║
+║  ╚═══██╗  ██╔═══╝  ██╔╝  ╚██╗  ██╔══██╗  ██╔═██╗  ║
+║ ██████╔╝  ██║     ██╔╝    ╚██╗ ██║  ██║  ██║ ╚██╗ ║
+║ ╚═════╝   ╚═╝     ╚═╝      ╚═╝ ╚═╝  ╚═╝  ╚═╝  ╚═╝ ║
+║                                                   ║
+║     Statistical Physics Autodiff Research Kit     ║
+╚═══════════════════════════════════════════════════╝
+
+          V(r)           ψ, φ              q
+           │               │               │
+           ○               ○               ○
+         ╱ | ╲           ╱ | ╲           ╱ | ╲
+        ○  ○  ○         ○  ○  ○         ○  ○  ○
+         ╲ | ╱           ╲ | ╱           ╲ | ╱
+           ○               ○               ○
+           │               │               │
+          g(r)             F              E(q)
+
+No, I haven’t read that paper. But I strongly disagree with it.
+
+
+============================================================
+  alpha=150.0  schedule=cosine  steps_switch=2000  steps_eq=2000
+============================================================
+
+--- Crooks Estimate (alpha=150.0) ---
+N atoms                = 1372
+n_passes               = 10
+trajectories / dir     = 2560
+steps_switch           = 2000
+schedule               = cosine
+F_EC (COM-constrained) = 6535.613332
+ΔF target (EOS, CM)    = -10057.545734
+ΔF Crooks crossing     = -10078.212435
+ΔF Jarzynski forward   = -10065.648647
+ΔF Jarzynski reverse   = -10090.603409
+F_LJ abs estimate      = -3549.735568
+F_LJ/N estimate        = -2.587271
+EOS a_ex/N             = -1.659767
+EOS a_id/N             = -0.912441
+EOS a/N                = -2.572208
+error in a/N           = -0.015063
+
+Saved results -> /users/1/sull1276/SPARK/examples/LJSolidFreeEnergy/CrooksAgain/crooks_results_alpha150_cosine_sw2000_eq2000.npz
+
+Saved /users/1/sull1276/SPARK/examples/LJSolidFreeEnergy/CrooksAgain/crooks_work_distributions_alpha150_cosine_sw2000_eq2000.png
