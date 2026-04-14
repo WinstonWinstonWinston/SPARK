@@ -1,14 +1,10 @@
-import sys
 import os
-current_dir = os.path.dirname(os.curdir)
-parent_dir = os.path.abspath(os.path.join(current_dir, "../.."))
-sys.path.append(parent_dir)
 import parmed as pmd
 import torch
-import system.units as units
-import system.box as box
-import system.system as sys
-from utils import *
+import spark.system.units as units
+import spark.system.box as box
+import spark.system.system as sys
+from spark.utils import *
 from tqdm import tqdm
 dtype=torch.float32
 device="cuda"

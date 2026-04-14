@@ -1,20 +1,18 @@
-import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
-import system.units as units
-import system.topology as topology
-import system.box as box
-import system.system as sys_module
-from forces.onebody import EinsteinCrystal
-from forces.twobody import Mie
-from forces.composite import InterpolatingPotential
-from integrators.NVT import NVT
-from utils import make_fcc_lattice
+import spark.system.units as units
+import spark.system.topology as topology
+import spark.system.box as box
+import spark.system.system as sys_module
+from spark.forces.onebody import EinsteinCrystal
+from spark.forces.twobody import Mie
+from spark.forces.composite import InterpolatingPotential
+from spark.integrators.NVT import NVT
+from spark.utils import make_fcc_lattice
 
 device = "cuda"
 dtype  = torch.float32
