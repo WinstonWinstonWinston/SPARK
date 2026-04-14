@@ -72,6 +72,7 @@ class System:
         self.top = top
         self.energy_dict = energy_dict
         self._force_fn = None
+        self._pe_fn = None
         self.device = torch.device(device)
         self.dtype = dtype
     
@@ -92,15 +93,20 @@ class System:
     def potential_energy(self) -> torch.Tensor:
         """Public: potential energy of the current coordinates. Cached."""
         if not hasattr(self, '_cached_pe'):
-            self._cached_pe = torch.sum(
-                torch.stack([v.sum(dim=1) for v in self.potential_energy_split().values()]),
-                dim=0,
-            )
+            if self._pe_fn is not None:
+                self._cached_pe = self._pe_fn(self.pos)
+            else:
+                self._cached_pe = self._potential_energy(self.pos)
         return self._cached_pe
-    
+
+    def compile_pe_fn(self):
+        """Create a compiled potential energy callable."""
+        self._potential_energy(self.pos)
+        self._pe_fn = torch.compile(self._potential_energy, fullgraph=True)
+
     def compile_force_fn(self):
-        """Create a pure, compiled partial E / partial pos callable."""
-        self.potential_energy()
+        """Create a compiled partial E / partial pos callable."""
+        self._potential_energy(self.pos)
         pe_scalar = lambda p: self._potential_energy(p).sum()  # (B,N,3) -> 1
         self._force_fn = torch.compile(grad(pe_scalar), fullgraph=True)
 

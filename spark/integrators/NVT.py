@@ -67,7 +67,7 @@ class NVT:
 
         momentum_t_plus = c_1*system.mom + c_2*torch.randn(system.mom.size(),device=self.device)
         old_forces = system.force()
-        system.pos = system.pos + self.dt *  system.mom / system.mass.unsqueeze(-1) + 0.5 * old_forces*(self.dt**2) / system.mass.unsqueeze(-1)
+        system.pos = system.pos + self.dt *  momentum_t_plus / system.mass.unsqueeze(-1) + 0.5 * old_forces*(self.dt**2) / system.mass.unsqueeze(-1)
         system.reset_cache()
         momentum_t_minus_plus_dt = momentum_t_plus + 0.5*(old_forces + system.force())*self.dt
         system.mom = c_1*momentum_t_minus_plus_dt + c_2*torch.randn(system.mom.size(),device=self.device)
